@@ -26,6 +26,9 @@ def build_chains(context):
             if isinstance(chain, list):
                 while isinstance(i, list) and len(i) == 1:
                     i = i[0]
+
+                if isinstance(i, list):
+                    i = ', '.join(i)
                 result.append(i)
             else:
                 if chain not in result:
