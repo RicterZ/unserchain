@@ -36,9 +36,9 @@ def check_eval(node_info, **kwargs):
 def check_block(node_info, **kwargs):
     ret_list = []
     for node_type, node in node_info['nodes']:
-        checke_func = CHECKER_MAP.get(node_type)
-        if checke_func:
-            ret = checke_func(node, **kwargs)
+        check_func = CHECKER_MAP.get(node_type)
+        if check_func:
+            ret = check_func(node, **kwargs)
             if ret:
                 ret_list.append(ret)
 
@@ -100,6 +100,12 @@ def check_method_call(node_info, ctx=None):
 
 
 @context
+def check_new(node_info, **kwargs):
+    name = 'new %s' % node_info['name']
+    return name
+
+
+@context
 def check_method(node_info, ctx=None):
     """check magic method
 
@@ -120,9 +126,15 @@ def check_method(node_info, ctx=None):
             if check_func:
                 ret = check_func(i, ctx=ctx)
                 if ret:
-                    ret_list.append(ret)
+                    if not isinstance(ret, list):
+                        ret = [ret]
+
+                    ret_list.extend(ret)
                     # do something else
-                    ctx['evil_methods'][node_info['name']] = ret
+                    if node_info['name'] not in ctx['evil_methods']:
+                        ctx['evil_methods'][node_info['name']] = []
+
+                    ctx['evil_methods'][node_info['name']].extend(ret)
 
         return ret_list
 
@@ -233,6 +245,7 @@ CHECKER_MAP = {
     TERNARY_OP: check_ternary_op,
     ELSE: check_else,
     RETURN: check_return,
+    NEW: check_new,
 }
 
 

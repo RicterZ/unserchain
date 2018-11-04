@@ -5,6 +5,7 @@ METHOD = 'Method'
 FUNCTION = 'Function'
 EVAL = 'Eval'
 CLASS_VARIABLES = 'ClassVariables'
+NEW = 'New'
 
 # statements
 BLOCK = 'Block'
@@ -27,7 +28,7 @@ METHOD_CALL = 'MethodCall'
 # others
 DANGEROUS_FUNCTIONS = [
     'exec', 'shell_exec', 'call_user_func', 'call_user_func_array', 'file_put_contents', 'file_get_contents',
-    'popen', 'readfile', 'passthru', 'proc_open',
+    'popen', 'readfile', 'passthru', 'proc_open', 'system',
 ]
 
 MAGIC_METHODS = [

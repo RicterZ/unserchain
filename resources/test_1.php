@@ -21,6 +21,7 @@ class A {
     public function __construct()
     {
         echo "    __construct\n";
+        system($cmd);
     }
 
     public function __wakeup()
@@ -41,6 +42,7 @@ class A {
 
     public function __toString()
     {
+        $a = new A();
         echo "    __toString\n";
         echo "    __toString\n";
         $this->evil_in_class();
