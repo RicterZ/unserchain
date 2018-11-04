@@ -17,6 +17,7 @@ function real_evil_func($c) {
 
 class A {
     public $cmd;
+    private $c;
 
     public function __construct()
     {
@@ -42,7 +43,10 @@ class A {
 
     public function __toString()
     {
+        $test = "test";
         $a = new A();
+        $a = new $this->c();
+        $a = new $test();
         echo "    __toString\n";
         echo "    __toString\n";
         $this->evil_in_class();

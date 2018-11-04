@@ -73,8 +73,6 @@ def main():
     for root, _, files in os.walk(path):
         for filename in files:
             if filename.endswith('.php'):
-                if not filename.startswith('test_3'):
-                    continue
 
                 php_file = os.path.abspath(os.path.join(root, filename))
                 try:

@@ -6,6 +6,8 @@ FUNCTION = 'Function'
 EVAL = 'Eval'
 CLASS_VARIABLES = 'ClassVariables'
 NEW = 'New'
+VARIABLE = 'Variable'
+OBJECTPROPERTY = 'ObjectProperty'
 
 # statements
 BLOCK = 'Block'

@@ -19,8 +19,18 @@ def context(f):
         if ret and 'ctx' in kwargs:
             # print 'RET', ret
             if 'name' in args[0]:
-                if args[0]['name'] in kwargs['ctx']['chains']:
-                     kwargs['ctx']['chains'][args[0]['name']].append(ret)
+                if isinstance(args[0]['name'], str):
+                    if args[0]['name'] in kwargs['ctx']['chains']:
+                         kwargs['ctx']['chains'][args[0]['name']].append(ret)
+                else:
+                    _, new_node_info = args[0]['name']
+                    if _ == VARIABLE:
+                        if new_node_info['name'] in kwargs['ctx']['chains']:
+                            kwargs['ctx']['chains'][new_node_info].append(ret)
+                    elif _ == OBJECTPROPERTY:
+                        _, n = new_node_info['node']
+                        if n['name'] in kwargs['ctx']['chains']:
+                            kwargs['ctx']['chains']['%s->%s' % (n['name'], new_node_info['name'])].append(ret)
 
         return ret
 
@@ -101,8 +111,25 @@ def check_method_call(node_info, ctx=None):
 
 @context
 def check_new(node_info, **kwargs):
-    name = 'new %s' % node_info['name']
-    return name
+    """ check new operator
+
+    ```php
+    $a = new B();
+    ```
+
+    :param node_info:
+    :param kwargs:
+    :return:
+    """
+    if isinstance(node_info['name'], str):
+        return 'new %s' % node_info['name']
+    else:
+        type_, new_node_info = node_info['name']
+        if type_ == VARIABLE:
+            return 'new %s' % new_node_info['name']
+        elif type_ == OBJECTPROPERTY:
+            _, n = new_node_info['node']
+            return 'new %s->%s' % (n['name'], new_node_info['name'])
 
 
 @context
